@@ -1,19 +1,19 @@
-#include "Matrix.h"
-//Возвращает случайное значение double
+п»ї#include "Matrix.h"
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃР»СѓС‡Р°Р№РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ double
 double generate_random(double min, double max) {
     return (double)rand() / RAND_MAX * (max - min) + min;
 }
-//Возвращает случайное целое значение double
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ СЃР»СѓС‡Р°Р№РЅРѕРµ С†РµР»РѕРµ Р·РЅР°С‡РµРЅРёРµ double
 double generate_random(int min, int max) {
     return round((double)rand() / RAND_MAX * (max - min) + min);
 }
-//Конструктор для создания матрицы с размером
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РјР°С‚СЂРёС†С‹ СЃ СЂР°Р·РјРµСЂРѕРј
 Matrix::Matrix(unsigned rows, unsigned cols)
 {
     changeSize(rows, cols);
     detCreated = false;
 }
-//Конструктор. Получает матрицу
+//РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. РџРѕР»СѓС‡Р°РµС‚ РјР°С‚СЂРёС†Сѓ
 Matrix::Matrix(vector<vector<double>> newMatrix)
 {
     matrix = newMatrix;
@@ -21,19 +21,19 @@ Matrix::Matrix(vector<vector<double>> newMatrix)
     setRowNumber(newMatrix.size());
     detCreated = false;
 }
-//Пустой конструктор
+//РџСѓСЃС‚РѕР№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 Matrix::Matrix()
 {
     detCreated = false;
 }
 
-//Геттер для матрицы
+//Р“РµС‚С‚РµСЂ РґР»СЏ РјР°С‚СЂРёС†С‹
 vector<vector<double>> Matrix::getMatrix() const
 {
     return matrix;
 }
 
-//Сеттер для матрицы
+//РЎРµС‚С‚РµСЂ РґР»СЏ РјР°С‚СЂРёС†С‹
 void Matrix::setMatrix(vector<vector<double>> newMatrix)
 {
     matrix = newMatrix;
@@ -42,13 +42,13 @@ void Matrix::setMatrix(vector<vector<double>> newMatrix)
 }
 
 
-//Геттер для строки
+//Р“РµС‚С‚РµСЂ РґР»СЏ СЃС‚СЂРѕРєРё
 vector<double> Matrix::getRow(unsigned num) const
 {
     vector<double> result = matrix[num];
     return result;
 }
-//Геттер для столбца
+//Р“РµС‚С‚РµСЂ РґР»СЏ СЃС‚РѕР»Р±С†Р°
 vector<double> Matrix::getCol(unsigned num) const
 {
 
@@ -59,22 +59,22 @@ vector<double> Matrix::getCol(unsigned num) const
     }
     return result;
 }
-//Сеттер для строки
+//РЎРµС‚С‚РµСЂ РґР»СЏ СЃС‚СЂРѕРєРё
 void Matrix::setRow(unsigned num, vector<double> newRow)
 {
     if (newRow.size() != col)
     {
-        throw invalid_argument("Не совпадают размеры строк матрицы и строки-аргумента");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ СЃС‚СЂРѕРє РјР°С‚СЂРёС†С‹ Рё СЃС‚СЂРѕРєРё-Р°СЂРіСѓРјРµРЅС‚Р°");
     }
     matrix[num] = newRow;
 
 }
-//Сеттер для столбца
+//РЎРµС‚С‚РµСЂ РґР»СЏ СЃС‚РѕР»Р±С†Р°
 void Matrix::setCol(unsigned num, vector<double> newCol)
 {
     if (newCol.size() != row)
     {
-        throw invalid_argument("Не совпадают размеры столбца матрицы и столбца-аргумента");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ СЃС‚РѕР»Р±С†Р° РјР°С‚СЂРёС†С‹ Рё СЃС‚РѕР»Р±С†Р°-Р°СЂРіСѓРјРµРЅС‚Р°");
     }
     for (unsigned i = 0; i < row; i++)
     {
@@ -87,13 +87,13 @@ void Matrix::setCol(unsigned num, vector<double> newCol)
 
 
 
-//Геттер для числа строк
+//Р“РµС‚С‚РµСЂ РґР»СЏ С‡РёСЃР»Р° СЃС‚СЂРѕРє
 unsigned Matrix::getRowNumber() const
 {
     return row;
 }
 
-//Геттер для числа столбцов
+//Р“РµС‚С‚РµСЂ РґР»СЏ С‡РёСЃР»Р° СЃС‚РѕР»Р±С†РѕРІ
 unsigned Matrix::getColNumber() const
 {
     return col;
@@ -116,14 +116,14 @@ determinant = newDet;
 }
 
 
-//Сеттер для числа строк
+//РЎРµС‚С‚РµСЂ РґР»СЏ С‡РёСЃР»Р° СЃС‚СЂРѕРє
 void Matrix::setRowNumber(unsigned newRow)
 {
     row = newRow;
 
 }
 
-//Сеттер для числа столбцов
+//РЎРµС‚С‚РµСЂ РґР»СЏ С‡РёСЃР»Р° СЃС‚РѕР»Р±С†РѕРІ
 void Matrix::setColNumber(unsigned newCol)
 {
     col = newCol;
@@ -141,7 +141,7 @@ void Matrix::changeSize(unsigned newRow, unsigned newCol)
     detCreated = false;
 }
 
-// Заполняет случайными значениями double, в пределах от min до max
+// Р—Р°РїРѕР»РЅСЏРµС‚ СЃР»СѓС‡Р°Р№РЅС‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё double, РІ РїСЂРµРґРµР»Р°С… РѕС‚ min РґРѕ max
 void Matrix::fillMatrixRandom(double min, double max)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -155,7 +155,7 @@ void Matrix::fillMatrixRandom(double min, double max)
 
 }
 
-// Заполняет случайными целыми значениями, в пределах от min до max
+// Р—Р°РїРѕР»РЅСЏРµС‚ СЃР»СѓС‡Р°Р№РЅС‹РјРё С†РµР»С‹РјРё Р·РЅР°С‡РµРЅРёСЏРјРё, РІ РїСЂРµРґРµР»Р°С… РѕС‚ min РґРѕ max
 void Matrix::fillMatrixRandom(int min, int max)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -169,7 +169,7 @@ void Matrix::fillMatrixRandom(int min, int max)
 
 }
 
-// Заполняет матрицу одним значением
+// Р—Р°РїРѕР»РЅСЏРµС‚ РјР°С‚СЂРёС†Сѓ РѕРґРЅРёРј Р·РЅР°С‡РµРЅРёРµРј
 void Matrix::fillMatrixValue(double value) 
 {
     for (unsigned i = 0; i < row; i++) {
@@ -179,14 +179,14 @@ void Matrix::fillMatrixValue(double value)
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// СЛОЖЕНИЯ И ВЫЧИТАНИЯ
+// РЎР›РћР–Р•РќРРЇ Р Р’Р«Р§РРўРђРќРРЇ
 // //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Складывает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//РЎРєР»Р°РґС‹РІР°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::sum(const Matrix& term1, const Matrix& term2)
 {
     if ((term1.getColNumber() != term2.getColNumber()) || (term1.getRowNumber() != term2.getRowNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матриц-аргументов");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†-Р°СЂРіСѓРјРµРЅС‚РѕРІ");
     }
        
     changeSize(term1.getRowNumber(), term2.getColNumber());
@@ -200,7 +200,7 @@ void Matrix::sum(const Matrix& term1)
 {
     if ((term1.getColNumber() != getColNumber()) || (term1.getRowNumber() != getRowNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы объекта");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹ РѕР±СЉРµРєС‚Р°");
     }
 
     for (unsigned i = 0; i < row; i++) {
@@ -209,12 +209,12 @@ void Matrix::sum(const Matrix& term1)
         }
     }
 }
-//Складывает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//РЎРєР»Р°РґС‹РІР°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 Matrix Matrix::operator +(const Matrix& term1) const
 {
     if ((row != term1.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     Matrix result(*this);
     for (unsigned i = 0; i < row; i++) {
@@ -225,12 +225,12 @@ Matrix Matrix::operator +(const Matrix& term1) const
     return result;
 }
 
-//Складывает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//РЎРєР»Р°РґС‹РІР°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::operator +=(const Matrix& term1)
 {
     if ((row != term1.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     for (unsigned i = 0; i < row; i++) {
         for (unsigned j = 0; j < col; j++) {
@@ -238,12 +238,12 @@ void Matrix::operator +=(const Matrix& term1)
         }
     }
 }
-//Вычитает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚Р°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 Matrix Matrix::operator - (const Matrix& term1) const
 {
     if ((row != term1.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     Matrix result(*this);
     for (unsigned i = 0; i < row; i++) {
@@ -253,12 +253,12 @@ Matrix Matrix::operator - (const Matrix& term1) const
     }
     return result;
 }
-//Вычитает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚Р°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::operator -= (const Matrix& term1)
 {
     if ((row != term1.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     for (unsigned i = 0; i < row; i++) {
         for (unsigned j = 0; j < col; j++) {
@@ -266,12 +266,12 @@ void Matrix::operator -= (const Matrix& term1)
         }
     }
 }
-//Вычитает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚Р°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::substract(const Matrix& term1, const Matrix& term2)
 {
     if ((row != term1.getRowNumber()) || (col != term2.getColNumber()) || (row != term2.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†-Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР»Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     for (unsigned i = 0; i < row; i++) {
         for (unsigned j = 0; j < col; j++) {
@@ -279,12 +279,12 @@ void Matrix::substract(const Matrix& term1, const Matrix& term2)
         }
     }
 }
-//Вычитает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚Р°РµС‚ РґРІРµ РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::substract(const Matrix& term1)
 {
     if ((row != term1.getRowNumber()) || (col != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матрицы-аргумента и матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†С‹-Р°СЂРіСѓРјРµРЅС‚Р° Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     for (unsigned i = 0; i < row; i++) {
         for (unsigned j = 0; j < col; j++) {
@@ -292,7 +292,7 @@ void Matrix::substract(const Matrix& term1)
         }
     }
 }
-//Добавляет Value к матрице, результат записывает в ту матрицу, в которой вызван оператор
+//Р”РѕР±Р°РІР»СЏРµС‚ Value Рє РјР°С‚СЂРёС†Рµ, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::sum(const Matrix& term1, double Value)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -303,19 +303,19 @@ void Matrix::sum(const Matrix& term1, double Value)
 }
 
 Matrix Matrix::operator +(double Value) const {
-    Matrix result(*this); // Создаем новый объект матрицы на основе текущего объекта
+    Matrix result(*this); // РЎРѕР·РґР°РµРј РЅРѕРІС‹Р№ РѕР±СЉРµРєС‚ РјР°С‚СЂРёС†С‹ РЅР° РѕСЃРЅРѕРІРµ С‚РµРєСѓС‰РµРіРѕ РѕР±СЉРµРєС‚Р°
 
     for (unsigned i = 0; i < row; i++) {
         for (unsigned j = 0; j < col; j++) {
-            result.matrix[i][j] += Value; // Складываем значение Value с элементами матрицы
+            result.matrix[i][j] += Value; // РЎРєР»Р°РґС‹РІР°РµРј Р·РЅР°С‡РµРЅРёРµ Value СЃ СЌР»РµРјРµРЅС‚Р°РјРё РјР°С‚СЂРёС†С‹
         }
     }
 
-    return result; // Возвращаем новый объект матрицы
+    return result; // Р’РѕР·РІСЂР°С‰Р°РµРј РЅРѕРІС‹Р№ РѕР±СЉРµРєС‚ РјР°С‚СЂРёС†С‹
 }
 
 
-//Добавляет Value к матрице, результат записывает в ту матрицу, в которой вызван оператор
+//Р”РѕР±Р°РІР»СЏРµС‚ Value Рє РјР°С‚СЂРёС†Рµ, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::operator +=(double Value)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -324,7 +324,7 @@ void Matrix::operator +=(double Value)
         }
     }
 }
-//Вычитыает Value из матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚С‹Р°РµС‚ Value РёР· РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 Matrix Matrix::operator - (double Value) const
 {
     Matrix result(*this);
@@ -335,7 +335,7 @@ Matrix Matrix::operator - (double Value) const
     }
     return result;
 }
-//Вычитыает Value из матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚С‹Р°РµС‚ Value РёР· РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::operator -= (double Value)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -344,7 +344,7 @@ void Matrix::operator -= (double Value)
         }
     }
 }
-//Вычитыает Value из матрицы, результат записывает в ту матрицу, в которой вызван оператор
+//Р’С‹С‡РёС‚С‹Р°РµС‚ Value РёР· РјР°С‚СЂРёС†С‹, СЂРµР·СѓР»СЊС‚Р°С‚ Р·Р°РїРёСЃС‹РІР°РµС‚ РІ С‚Сѓ РјР°С‚СЂРёС†Сѓ, РІ РєРѕС‚РѕСЂРѕР№ РІС‹Р·РІР°РЅ РѕРїРµСЂР°С‚РѕСЂ
 void Matrix::substract(const Matrix& term1, double Value)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -354,9 +354,9 @@ void Matrix::substract(const Matrix& term1, double Value)
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//УМНОЖЕНИЯ
+//РЈРњРќРћР–Р•РќРРЇ
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Умножает матрицу term1 на значение value скалярно. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ term1 РЅР° Р·РЅР°С‡РµРЅРёРµ value СЃРєР°Р»СЏСЂРЅРѕ. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 void Matrix::mul(const Matrix& term1, double Value)
 {
     setMatrix(term1.getMatrix());
@@ -366,7 +366,7 @@ void Matrix::mul(const Matrix& term1, double Value)
         }
     }
 }
-//Умножает матрицу на значение value скалярно. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ РЅР° Р·РЅР°С‡РµРЅРёРµ value СЃРєР°Р»СЏСЂРЅРѕ. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 Matrix Matrix::operator *(double Value)const
 {
     Matrix result(*this);
@@ -378,7 +378,7 @@ Matrix Matrix::operator *(double Value)const
     return result;
 }
 
-//Умножает матрицу на значение value скалярно. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ РЅР° Р·РЅР°С‡РµРЅРёРµ value СЃРєР°Р»СЏСЂРЅРѕ. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 void Matrix::operator *=(double Value)
 {
     for (unsigned i = 0; i < row; i++) {
@@ -393,12 +393,12 @@ void Matrix::operator *=(double Value)
 
 
 
-//Умножает матрицу term1 на матрицу term2. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ term1 РЅР° РјР°С‚СЂРёС†Сѓ term2. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 void Matrix::mul(const Matrix& term1, const Matrix& term2)
 {
     if ((term1.getRowNumber() != term2.getColNumber()) || (term2.getRowNumber() != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†-Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР»Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     vector<vector<double>> temp(term1.getColNumber(), vector<double>(term1.getColNumber(), 0));
     for (int i = 0; i < row; i++) {
@@ -410,13 +410,13 @@ void Matrix::mul(const Matrix& term1, const Matrix& term2)
     }
     setMatrix(temp);
 }
-//Умножает матрицу на  матрицу term1. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ РЅР°  РјР°С‚СЂРёС†Сѓ term1. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 
 Matrix Matrix::operator *(const Matrix& term1) const
 {
     if ((term1.getRowNumber() != getColNumber()) || (getRowNumber() != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†-Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР»Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     Matrix result(term1.getColNumber(), term1.getColNumber());
     for (int i = 0; i < row; i++) {
@@ -429,12 +429,12 @@ Matrix Matrix::operator *(const Matrix& term1) const
     return result;
 }
 
-//Умножает матрицу на  матрицу term1. Результат уходит в матрицу, где был вызван метод
+//РЈРјРЅРѕР¶Р°РµС‚ РјР°С‚СЂРёС†Сѓ РЅР°  РјР°С‚СЂРёС†Сѓ term1. Р РµР·СѓР»СЊС‚Р°С‚ СѓС…РѕРґРёС‚ РІ РјР°С‚СЂРёС†Сѓ, РіРґРµ Р±С‹Р» РІС‹Р·РІР°РЅ РјРµС‚РѕРґ
 void Matrix::operator *=(const Matrix& term1)
 {
     if ((term1.getRowNumber() != getColNumber()) || (getRowNumber() != term1.getColNumber()))
     {
-        throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
+        throw invalid_argument("РќРµ СЃРѕРІРїР°РґР°СЋС‚ СЂР°Р·РјРµСЂС‹ РјР°С‚СЂРёС†-Р°СЂРіСѓРјРµРЅС‚РѕРІ РёР»Рё РјР°С‚СЂРёС†С‹-СЂРµР·СѓР»СЊС‚Р°С‚Р°");
     }
     vector<vector<double>> temp(term1.getColNumber(), vector<double>(term1.getColNumber(), 0));
     for (int i = 0; i < row; i++) {
@@ -447,19 +447,19 @@ void Matrix::operator *=(const Matrix& term1)
     setMatrix(temp);
 }
 
-//Возвращает значение матрицы по адресу
+//Р’РѕР·РІСЂР°С‰Р°РµС‚ Р·РЅР°С‡РµРЅРёРµ РјР°С‚СЂРёС†С‹ РїРѕ Р°РґСЂРµСЃСѓ
 double Matrix::getValue(const double row, const double col) const
 {
     return matrix[row][col];
 }
-//Усианавливает значение. СБрасывает флаг определителя
+//РЈСЃРёР°РЅР°РІР»РёРІР°РµС‚ Р·РЅР°С‡РµРЅРёРµ. РЎР‘СЂР°СЃС‹РІР°РµС‚ С„Р»Р°Рі РѕРїСЂРµРґРµР»РёС‚РµР»СЏ
 void Matrix::setValue(const double row, const double col, const double value)
 {
     matrix[row][col] = value;
     detCreated = false;
 }
 
-// Транспонирует матрицу
+// РўСЂР°РЅСЃРїРѕРЅРёСЂСѓРµС‚ РјР°С‚СЂРёС†Сѓ
 void Matrix::transponse()
 {
     vector<vector<double>> temp(getColNumber(), vector<double>(getRowNumber(), 0));
@@ -485,7 +485,7 @@ void Matrix::transponse()
 
 
 
-//Вывод матрицы. 
+//Р’С‹РІРѕРґ РјР°С‚СЂРёС†С‹. 
 void matrix_output(const Matrix & matrix)
 {
     unsigned const width = 10;
@@ -505,25 +505,25 @@ void matrix_output(const Matrix & matrix)
     }
     cout << endl;
 }
-//Ручной ввод
+//Р СѓС‡РЅРѕР№ РІРІРѕРґ
 void fill_matrix_manually(vector<vector<double>>& matrix) {
     int n = matrix.size();
     int n1 = matrix[0].size();
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n1; j++) {
-            cout << "Введите значение для A[" << i << "][" << j << "]: " << endl;
+            cout << "Р’РІРµРґРёС‚Рµ Р·РЅР°С‡РµРЅРёРµ РґР»СЏ A[" << i << "][" << j << "]: " << endl;
             cin >> matrix[i][j];
         }
     }
 }
 
 
-//Приводит матрицу к диагональному виду методом Гаусса
+//РџСЂРёРІРѕРґРёС‚ РјР°С‚СЂРёС†Сѓ Рє РґРёР°РіРѕРЅР°Р»СЊРЅРѕРјСѓ РІРёРґСѓ РјРµС‚РѕРґРѕРј Р“Р°СѓСЃСЃР°
 void Matrix::diagonal()
 {
     if (getRowNumber() != getColNumber())
     {
-        throw invalid_argument("Матрица не квадратная.");
+        throw invalid_argument("РњР°С‚СЂРёС†Р° РЅРµ РєРІР°РґСЂР°С‚РЅР°СЏ.");
     }
     for (unsigned flag = 0; flag < row; flag++)
     {
@@ -572,16 +572,16 @@ void Matrix::det()
         int size = getColNumber();
         determinant = 0;
 
-        // Базовый случай - матрица 2x2
+        // Р‘Р°Р·РѕРІС‹Р№ СЃР»СѓС‡Р°Р№ - РјР°С‚СЂРёС†Р° 2x2
         if (size == 2) {
             double newDet = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0]);
             this->setDet(newDet);
             return;
         }
 
-        // Для каждого элемента первой строки
+        // Р”Р»СЏ РєР°Р¶РґРѕРіРѕ СЌР»РµРјРµРЅС‚Р° РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё
         for (int i = 0; i < size; i++) {
-            // Создаем подматрицу без первой строки и текущего столбца
+            // РЎРѕР·РґР°РµРј РїРѕРґРјР°С‚СЂРёС†Сѓ Р±РµР· РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРё Рё С‚РµРєСѓС‰РµРіРѕ СЃС‚РѕР»Р±С†Р°
             Matrix subMatrix(size - 1, size - 1);
             for (int j = 1; j < size; j++) {
                 int subMatrixColumn = 0;
@@ -592,7 +592,7 @@ void Matrix::det()
                     }
                 }
             }
-            // Рекурсивно вычисляем определитель подматрицы и прибавляем к общему определителю
+            // Р РµРєСѓСЂСЃРёРІРЅРѕ РІС‹С‡РёСЃР»СЏРµРј РѕРїСЂРµРґРµР»РёС‚РµР»СЊ РїРѕРґРјР°С‚СЂРёС†С‹ Рё РїСЂРёР±Р°РІР»СЏРµРј Рє РѕР±С‰РµРјСѓ РѕРїСЂРµРґРµР»РёС‚РµР»СЋ
             determinant += (i % 2 == 1 ? -1 : 1) * matrix[0][i] * subMatrix.getDet();
         }
 
@@ -680,7 +680,7 @@ vector<double> Matrix::solveGauss () const
             while (true);
             swap(result.matrix[flag], result.matrix[m]);
         }
-        //////////////////Правило
+        //////////////////РџСЂР°РІРёР»Рѕ
         for (unsigned i = 0; i < row; i++)
         {
             for (unsigned j = flag+1; j < col; j++)
@@ -691,7 +691,7 @@ vector<double> Matrix::solveGauss () const
                 }
             }
         }
-        /////////////////////////Обнуление столбца
+        /////////////////////////РћР±РЅСѓР»РµРЅРёРµ СЃС‚РѕР»Р±С†Р°
         for (unsigned i = 0; i < row; i++)
         {
             if (i != flag)
@@ -699,7 +699,7 @@ vector<double> Matrix::solveGauss () const
                 result.setValue(i, flag, 0);
             }
         }
-        ///////////////Деление строки
+        ///////////////Р”РµР»РµРЅРёРµ СЃС‚СЂРѕРєРё
         for (unsigned j = row; j != flag-1; j--)//j >= flag
         {
             result.setValue(flag, j, (result.getValue(flag, j) / result.getValue(flag,flag)));
