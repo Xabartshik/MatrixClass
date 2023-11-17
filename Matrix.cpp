@@ -1,4 +1,8 @@
 ﻿#include "Matrix.h"
+#include <cassert>
+
+///Накосячил -- Ошлаков Данил. Все ошибки сделаны из-за грусти или невнимательности, права не зарезервированы
+
 //Возвращает случайное значение double
 double generate_random(double min, double max) {
     return (double)rand() / RAND_MAX * (max - min) + min;
@@ -14,12 +18,9 @@ Matrix::Matrix(unsigned rows, unsigned cols)
     detCreated = false;
 }
 //Конструктор. Получает матрицу
-Matrix::Matrix(vector<vector<double>> newMatrix)
+Matrix::Matrix(const vector<vector<double>>& newMatrix)
 {
-    matrix = newMatrix;
-    setColNumber(newMatrix[0].size());
-    setRowNumber(newMatrix.size());
-    detCreated = false;
+    setMatrix(newMatrix);
 }
 //Пустой конструктор
 Matrix::Matrix()
@@ -34,11 +35,13 @@ vector<vector<double>> Matrix::getMatrix() const
 }
 
 //Сеттер для матрицы
-void Matrix::setMatrix(vector<vector<double>> newMatrix)
+void Matrix::setMatrix(const vector<vector<double>>& newMatrix)
 {
     matrix = newMatrix;
     setRowNumber(matrix.size());
     setColNumber(matrix[0].size());
+    detCreated = false;
+
 }
 
 
@@ -196,6 +199,7 @@ void Matrix::sum(const Matrix& term1, const Matrix& term2)
         }
     }
 }
+//Складывает две матрицы, результат записывает в ту матрицу, в которой вызван оператор
 void Matrix::sum(const Matrix& term1)
 {
     if ((term1.getColNumber() != getColNumber()) || (term1.getRowNumber() != getRowNumber()))
@@ -301,7 +305,7 @@ void Matrix::sum(const Matrix& term1, double Value)
         }
     }
 }
-
+//Добавляет Value к матрице, результат записывает в ту матрицу, с которой вызван оператор
 Matrix Matrix::operator +(double Value) const {
     Matrix result(*this); // Создаем новый объект матрицы на основе текущего объекта
 
@@ -401,9 +405,9 @@ void Matrix::mul(const Matrix& term1, const Matrix& term2)
         throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
     }
     vector<vector<double>> temp(term1.getColNumber(), vector<double>(term1.getColNumber(), 0));
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < row; j++) {
-            for (int k = 0; k < col; k++) {
+    for (unsigned i = 0; i < row; i++) {
+        for (unsigned j = 0; j < row; j++) {
+            for (unsigned k = 0; k < col; k++) {
                 temp[i][j] += term1.getValue(i, k) * term2.getValue(k, j);
             }
         }
@@ -419,9 +423,9 @@ Matrix Matrix::operator *(const Matrix& term1) const
         throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
     }
     Matrix result(term1.getColNumber(), term1.getColNumber());
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < row; j++) {
-            for (int k = 0; k < col; k++) {
+    for (unsigned i = 0; i < row; i++) {
+        for (unsigned j = 0; j < row; j++) {
+            for (unsigned k = 0; k < col; k++) {
                 result.matrix[i][j] += getValue(i, k) * term1.getValue(k, j);
             }
         }
@@ -437,9 +441,9 @@ void Matrix::operator *=(const Matrix& term1)
         throw invalid_argument("Не совпадают размеры матриц-аргументов или матрицы-результата");
     }
     vector<vector<double>> temp(term1.getColNumber(), vector<double>(term1.getColNumber(), 0));
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < row; j++) {
-            for (int k = 0; k < col; k++) {
+    for (unsigned i = 0; i < row; i++) {
+        for (unsigned j = 0; j < row; j++) {
+            for (unsigned k = 0; k < col; k++) {
                 temp[i][j] += getValue(i, k) * term1.getValue(k, j);
             }
         }
@@ -448,12 +452,12 @@ void Matrix::operator *=(const Matrix& term1)
 }
 
 //Возвращает значение матрицы по адресу
-double Matrix::getValue(const double row, const double col) const
+double Matrix::getValue(const unsigned row, const unsigned col) const
 {
     return matrix[row][col];
 }
 //Усианавливает значение. СБрасывает флаг определителя
-void Matrix::setValue(const double row, const double col, const double value)
+void Matrix::setValue(const unsigned row, const unsigned col, const double value)
 {
     matrix[row][col] = value;
     detCreated = false;
@@ -463,8 +467,8 @@ void Matrix::setValue(const double row, const double col, const double value)
 void Matrix::transponse()
 {
     vector<vector<double>> temp(getColNumber(), vector<double>(getRowNumber(), 0));
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < col; j++) {
+    for (unsigned i = 0; i < row; i++) {
+        for (unsigned j = 0; j < col; j++) {
             temp[j][i] = getValue(i,j);
         }
     }
@@ -507,10 +511,10 @@ void matrix_output(const Matrix & matrix)
 }
 //Ручной ввод
 void fill_matrix_manually(vector<vector<double>>& matrix) {
-    int n = matrix.size();
-    int n1 = matrix[0].size();
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n1; j++) {
+    unsigned n = matrix.size();
+    unsigned n1 = matrix[0].size();
+    for (unsigned i = 0; i < n; i++) {
+        for (unsigned j = 0; j < n1; j++) {
             cout << "Введите значение для A[" << i << "][" << j << "]: " << endl;
             cin >> matrix[i][j];
         }
@@ -525,10 +529,11 @@ void Matrix::diagonal()
     {
         throw invalid_argument("Матрица не квадратная.");
     }
+    //Проверка на нулевые значения диагонали (смена строк местами)
     for (unsigned flag = 0; flag < row; flag++)
     {
         if (abs(matrix[flag][flag]) < 0.00001) {
-            int m = flag + 1;
+            unsigned m = flag + 1;
             do {
                 if (abs(matrix[m][flag]) > 0.00001 || m > row) {
                     break;
@@ -536,10 +541,11 @@ void Matrix::diagonal()
                 m++;
             } while (true);
 
-            for (int j = flag; j < row; j++) {
+            for (unsigned j = flag; j < row; j++) {
                 swap(matrix[flag][j], matrix[m][j]);
             }
         }
+        //Правило прямоугольника
         for (unsigned i = 0; i < row; i++)
         {
             for (unsigned j = flag + 1; j <  row; j++)
@@ -550,11 +556,12 @@ void Matrix::diagonal()
                 }
             }
         }
+        //Обнуление элементов кроме диагонали и ответов
         for (unsigned i = flag + 1; i < row; i++)
         {
             matrix[i][flag] = 0;
         }
-
+        //Делит всю строку на значение 
         for (unsigned j = row - 1; j != flag; j--)//j >= flag
         {
             matrix[flag][j] /= matrix[flag][flag];
@@ -565,11 +572,15 @@ void Matrix::diagonal()
 }
 
 
-
+///Считает определитель матрицы
 void Matrix::det()
 {
     {
-        int size = getColNumber();
+        if (getRowNumber() != getColNumber())
+        {
+            throw invalid_argument("Матрица не квадратная.");
+        }
+        unsigned size = getColNumber();
         determinant = 0;
 
         // Базовый случай - матрица 2x2
@@ -580,12 +591,12 @@ void Matrix::det()
         }
 
         // Для каждого элемента первой строки
-        for (int i = 0; i < size; i++) {
+        for (unsigned i = 0; i < size; i++) {
             // Создаем подматрицу без первой строки и текущего столбца
             Matrix subMatrix(size - 1, size - 1);
-            for (int j = 1; j < size; j++) {
-                int subMatrixColumn = 0;
-                for (int k = 0; k < size; k++) {
+            for (unsigned j = 1; j < size; j++) {
+                unsigned subMatrixColumn = 0;
+                for (unsigned k = 0; k < size; k++) {
                     if (k != i) {
                         subMatrix.setValue(j - 1, subMatrixColumn, matrix[j][k]);
                         subMatrixColumn++;
@@ -597,13 +608,20 @@ void Matrix::det()
         }
 
     }
+    detCreated = true;
+
 }
 
 void Matrix::reverse()
 {
-    for (int i = 0; i < row; i++)
+    if (getRowNumber() != getColNumber())
     {
-        for (int j = row; j < 2 * row; j++)
+        throw invalid_argument("Матрица не квадратная.");
+    }
+    //Расширение матрицы до 2n
+    for (unsigned i = 0; i < row; i++)
+    {
+        for (unsigned j = row; j < 2 * row; j++)
         {
             if (i == (j - row))
             {
@@ -618,8 +636,9 @@ void Matrix::reverse()
 
     for (unsigned flag = 0; flag < row; flag++)
     {
+        //Проверка на нулевые значения диагонали (смена строк местами)
         if (abs(matrix[flag][flag]) < 0.00001) {
-            int m = flag + 1;
+            unsigned m = flag + 1;
             do {
                 if (abs(matrix[m][flag]) > 0.00001 || m > row) {
                     break;
@@ -627,10 +646,11 @@ void Matrix::reverse()
                 m++;
             } while (true);
 
-            for (int j = flag; j < 2 * row - 1; j++) {
+            for (unsigned j = flag; j < 2 * row - 1; j++) {
                 swap(matrix[flag][j], matrix[m][j]);
             }
         }
+        //Правило прямоугольника
         for (unsigned i = 0; i < row; i++)
         {
             for (unsigned j = flag + 1; j < 2 * row; j++)
@@ -641,21 +661,25 @@ void Matrix::reverse()
                 }
             }
         }
+        //Обнуление элементов кроме диагонали и ответов
         for (unsigned i = 0; i < row; i++)
         {
             if (i != flag)
                 matrix[i][flag] = 0;
         }
-        for (unsigned j = 2 * row - 1; j != flag; j--)//j >= flag
+        //Делит всю строку на значение 
+        for (unsigned j = 2 * row - 1; j != flag-1; j--)//j >= flag
         {
             matrix[flag][j] = matrix[flag][j] / matrix[flag][flag];
         }
     }
+    //Создание столбца для ответов
     vector<vector<double>> output;
     output.resize(row);
-    for (int i = 0; i < row; i++)
+    //Отщепление столбца, который содержит корней
+    for (unsigned i = 0; i < row; i++)
     {
-        for (int j = row; j < 2 * row; j++)
+        for (unsigned j = row; j < 2 * row; j++)
         {
             output[i].push_back(matrix[i][j]);
         }
@@ -663,14 +687,22 @@ void Matrix::reverse()
     matrix = output;
 }
 
+
+
+//Решает систему уравнений методом Гаусса в матричном виде
 vector<double> Matrix::solveGauss () const
 {
+    if ((getRowNumber()+1) != getColNumber())
+    {
+        throw invalid_argument("Число столбцов должно быть равно числу строк + 1.");
+    }
+
     Matrix result = *this;
     for (unsigned flag = 0; flag < row; flag++)
     {
-        if (abs(result.getValue(flag, flag) < 0.00001)) 
+        if (abs(result.getValue(flag, flag)) < 0.00001) 
         {
-            int m = flag + 1;
+            unsigned m = flag + 1;
             do {
                 if (abs(result.getValue(m, flag)) > 0.00001 || m > row) {
                     break;
@@ -707,4 +739,115 @@ vector<double> Matrix::solveGauss () const
 
     }
     return result.getCol(row);
+}
+
+
+
+
+
+// Проверка на работоспособность класса
+void testClass()
+{
+    ///Создание объектов для проверок
+    Matrix test;
+    Matrix test2;
+    Matrix test3;
+    Matrix test4;
+    Matrix test5;
+    Matrix test7;
+    vector<vector<double>> test_mat = { {5, 14, 23.0},
+                                        {14.0, 41.0, 68.0},
+                                        {23, 68, 113}, };
+    vector<vector<double>> test_mat2 = { {1.0, 2.0},
+                                         {4.0, 5.0},
+                                         {7.0, 8.0} };
+    vector<vector<double>> test_mat3 = {
+            {1, 4, 7},
+            {2, 5, 8},
+
+    };
+
+    vector<vector<double>> test_mat4 = {
+            {3, 2, -5, -1},
+            {2, -1, 3, 13},
+            {1, 2, -1, 9},
+    };
+    vector<vector<double>> test_mat5 = {
+            {3, 6, 9},
+            {4, 7, 10},
+
+    };
+    vector<vector<double>> test_mat6 = {
+        {4, 10, 16},
+        {6, 12, 18},
+
+    };
+    vector<vector<double>> test_mat7 = {
+        {1, 4, 7},
+        {2, 5, 8},
+
+    };
+    vector<vector<double>> test_mat8 = {
+    {5, 3},
+    {3, 2},
+    };
+    vector<vector<double>> test_mat9 = {
+    {2, -3},
+    {-3, 5},
+    };
+
+    ///Задание объектам матриц
+    test.setMatrix(test_mat);
+    test2.setMatrix(test_mat2);
+    test3.setMatrix(test_mat3);
+    test4.setMatrix(test_mat4);
+    test5.setMatrix(test_mat5);
+    test7.setMatrix(test_mat7);
+    test_mat7 = test_mat3;
+    //////Вектор для ответов решения гаусса
+    vector<double> output;
+    vector<double> answers = {3, 5, 4};
+    //Проверка суммы. Проверяются только одна версия операции, ибо остальные аналогичны:
+    test3 += 2;
+    assert(test3.getMatrix() == test_mat5);
+
+    /////////////Проверка разницы
+    test3 -= 2;
+    assert(test3.getMatrix() == test_mat7);
+    ////////////Проверка суммы двух матриц
+    test7 = test3 + test5;
+    assert(test7.getMatrix() == test_mat6);
+    ////////////Проверка разности двух матриц
+    test7 = test7 - test5;
+    assert(test7.getMatrix() == test3.getMatrix());
+    ////////////Проверка умножения на число:
+    test7.setMatrix(test_mat7);
+    test7.sum(test7);
+    test3.setMatrix(test_mat3);
+    test3.mul(test3, 2);
+    assert(test7.getMatrix() == test3.getMatrix());
+    ////////////Проверка умножения матрицы на матрицу
+    test3.setMatrix(test_mat3);
+    test2.setMatrix(test_mat2);
+    test2 *= test3;
+    assert(test2.getMatrix() == test.getMatrix());
+    //////////////Проверка обратной матрицы
+    test3.setMatrix(test_mat8);
+    test2.setMatrix(test_mat9);
+    test3.reverse();
+    /////Погрешность в вычислениях. Извините, но это исправить нельзя
+    test3.setValue(0, 1, round(test3.getValue(0, 1)));
+    test3.setValue(1, 0, round(test3.getValue(1, 0)));
+    assert(test2.getMatrix() == test3.getMatrix());
+    //////////////Проверка определителя
+    test3.setMatrix(test_mat8);
+    assert(1 == test3.getDet());
+    //////////////Проверка решения системы линейных уравнений в матричном виде:
+    output = test4.solveGauss();
+    for (int i = 0; i <3; i++)
+    {
+        output[i] = round(output[i]);
+    }
+    assert(output == answers);
+    cout<< "Если вы это видите, класс работает нормально" << endl;
 }

@@ -3,6 +3,8 @@
 #include <math.h>
 #include <vector>
 #include <iostream>
+///Накосячил -- Ошлаков Данил. Все ошибки сделаны из-за грусти или невнимательности, права не зарезервированы
+
 using namespace std;
 class Matrix
 {
@@ -24,11 +26,12 @@ public:
 	//Пустой конструктор
 	Matrix();
 	//Конструктор. Получает матрицу
-	Matrix(vector<vector<double>> newMatrix);
+	Matrix(const vector<vector<double>> &newMatrix);
+
 	//Геттер для матрицы
 	vector<vector<double>> getMatrix() const;
 	//Сеттер для матрицы
-	void setMatrix(vector<vector<double>> newMatrix);
+	void setMatrix(const vector<vector<double>>& newMatrix);
 
 	void changeSize(unsigned newRow, unsigned newCol);
 	//Геттер для числа строк
@@ -94,8 +97,8 @@ public:
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	double getValue(const double row, const double col) const;
-	void setValue(const double row, const double col, const double value);
+	double getValue(const unsigned row, const unsigned col) const;
+	void setValue(const unsigned row, const unsigned col, const double value);
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//УМНОЖЕНИЯ
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,10 +127,12 @@ public:
 	void det();
 	//Получает обратную матрицу
 	void reverse();
-	//Решает матрицу Гауссом
+	//Решает систему уравнений методом Гаусса в матричном виде
 	vector<double> solveGauss() const;
-};
 
+};
+// Проверка на работоспособность класса
+void testClass();
 //Возвращает случайное значение double
 double generate_random(double min, double max);
 //Возвращает случайное целое значение double
